@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" xml:lang="<%- lang %>" lang="<%- lang %>">
+
+  <head>
+    <title><%= title %></title>
+    <meta charset="UTF-8" />
+  </head>
+
+  <body>
+    <h1 class="h1">
+        <%= tocTitle %>
+    </h1>
+    <nav id="toc" epub:type="toc">
+      <ol style="list-style:none" class="list">
+        <% tocContent.forEach(function(tocContentItem, index){ %>
+          <% if(!content[tocContentItem.index].excludeFromToc && content[tocContentItem.index].beforeToc){ %>
+            <li class="table-of-content">
+              <a href="<%= content[tocContentItem.index].href %>">
+                <%= (content[tocContentItem.index].title) %>
+                <% if(content[tocContentItem.index].author.length){ %> - <small class="toc-author"><%= content[tocContentItem.index].author.join(",") %></small><% }%>
+                <% if(content[tocContentItem.index].url){ %><span class="toc-link"><%= content[tocContentItem.index].url %></span><% }%>
+              </a>
+              <% if(Array.isArray(tocContentItem.children)){ %>
+                <ol style="list-style:none">
+                  <% tocContentItem.children.forEach(function(item, index){ %>
+                    <li class="table-of-content">
+                      <a href="<%= content[item.index].href %>">
+                        <%= (content[item.index].title) %>
+                        <% if(content[item.index].author.length){ %> - <small class="toc-author"><%= content[item.index].author.join(",") %></small><% }%>
+                        <% if(content[item.index].url){ %><span class="toc-link"><%= content[item.index].url %></span><% }%>
+                      </a>
+                    </li>
+                  <% }) %>
+                </ol>
+              <% } %>
+            </li>
+          <% } %>
+        <% }) %>
+
+        <% tocContent.forEach(function(tocContentItem, index){ %>
+          <% if(!content[tocContentItem.index].excludeFromToc && !content[tocContentItem.index].beforeToc){ %>
+            <li style="list-style:none" class="table-of-content">
+              <a href="<%= content[tocContentItem.index].href %>">
+                <%= (content[tocContentItem.index].title) %>
+                <% if(content[tocContentItem.index].author.length){ %> - <small class="toc-author"><%= content[tocContentItem.index].author.join(",") %></small><% }%>
+                <% if(content[tocContentItem.index].url){ %><span class="toc-link"><%= content[tocContentItem.index].url %></span><% }%>
+              </a>
+              <% if(Array.isArray(tocContentItem.children)){ %>
+                <ol style="list-style:none">
+                  <% tocContentItem.children.forEach(function(item, index){ %>
+                    <li class="table-of-content">
+                      <a href="<%= content[item.index].href %>">
+                        <%= (content[item.index].title) %>
+                        <% if(content[item.index].author.length){ %> - <small class="toc-author"><%= content[item.index].author.join(",") %></small><% }%>
+                        <% if(content[item.index].url){ %><span class="toc-link"><%= content[item.index].url %></span><% }%>
+                      </a>
+                    </li>
+                  <% }) %>
+                </ol>
+              <% } %>
+            </li>
+          <% } %>
+        <% }) %>
+      </ol>
+    </nav>
+  </body>
+</html>
